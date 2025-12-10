@@ -16,5 +16,5 @@ class User:
 if __name__ == '__main__':
     user = User ( 'joao', 'rua' ,'joao', 'joao@joao.com', '09/12/25', 'senha', 'ativo' )
     print(user.to_dict())
-    print(user.check_password('semsenha'))
+    print(user.check_password('ssenha'))
     print(user.check_password('senha'))
