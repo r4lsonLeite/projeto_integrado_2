@@ -7,4 +7,5 @@ class Diagnosis():
         self.level = level
         self.answers
         
+        
         pass
