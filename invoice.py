@@ -1,6 +1,5 @@
 class Invoice:
-    def __init__(self, invoice_id, order_id, amount, 
-                 due_date, client_id, status, issue_date):
+    def __init__(self, invoice_id, order_id, amount, due_date, client_id, status, issue_date):
         self.invoice_id = invoice_id
         self.order_id = order_id
         self.amount = amount
