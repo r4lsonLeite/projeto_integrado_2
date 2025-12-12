@@ -1,5 +1,8 @@
+import datetime
+
+
 class User:
-    def __init__(self, name, adress, phone, email, date_register, password, status ):
+    def __init__(self, name: str, adress: str, phone: int, email: str, date_register: datetime , password: str, status: bool ):
         self.name = name
         self.adress = adress
         self.phone = phone

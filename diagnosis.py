@@ -1,6 +1,11 @@
+import datetime
+
+import user
+
+
 class Diagnosis():
-    def __init__(diag, user, date_app, score_first, level, answers):
-        self.diag = diag
+    def __init__(self, user: user, date_app: datetime, score_first: str, level: int, answers: str):
+       
         self.user = user
         self.date_app = date_app
         self.score_first = score_first
