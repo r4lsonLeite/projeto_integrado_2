@@ -7,16 +7,6 @@ class Payment:
         self.transaction_gateway = transaction_gateway
         self.status = status
         self.payment_date = payment_date
-    def to_dict(self):
-        return {
-            'payment_id': self.payment_id,
-            'invoice_id': self.invoice_id,
-            'amount': self.amount,
-            'gateway_type': self.gateway_type,
-            'transaction_gateway': self.transaction_gateway,
-            'status': self.status,
-            'payment_date': self.payment_date
-        }
     def process_and_confirm(self, confirmation_date, invoice_object):
         if self.status == 'pending':
             print(f"Payment {self.payment_id}: Processing via {self.gateway_type}...")
