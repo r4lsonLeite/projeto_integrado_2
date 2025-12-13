@@ -1,5 +1,6 @@
+import datetime
 class EventMetric:
-    def __init__(self, event_id, user_id, event_type, reference_id, event_date):
+    def __init__(self, event_id: int, user_id: int , event_type: str , reference_id: int, event_date: datetime):
         self.event_id = event_id
         self.user_id = user_id
         self.event_type = event_type

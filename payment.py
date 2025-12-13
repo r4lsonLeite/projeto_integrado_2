@@ -1,5 +1,6 @@
+import datetime
 class Payment:
-    def __init__(self, payment_id, invoice_id, amount, gateway_type, transaction_gateway, status, payment_date):
+    def __init__(self, payment_id: int, invoice_id: int, amount:float, gateway_type: str, transaction_gateway: str, status: str, payment_date: datetime):
         self.payment_id = payment_id
         self.invoice_id = invoice_id
         self.amount = amount

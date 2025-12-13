@@ -1,5 +1,6 @@
+import datetime
 class Notification:
-    def __init__(self, notification_id, user_id, channel, content, send_date, send_status):
+    def __init__(self, notification_id: int, user_id: int, channel: int , content: str, send_date: datetime, send_status: str):
         self.notification_id = notification_id
         self.user_id = user_id
         self.channel = channel

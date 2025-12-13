@@ -1,5 +1,5 @@
 class PartnerOffer:
-    def __init__(self, offer_id, partner_id, title, description, criteria_json, enrollment_url, is_active=True):
+    def __init__(self, offer_id: int, partner_id: int, title: str, description: str, criteria_json: str, enrollment_url: str, is_active: bool):
         self.offer_id = offer_id
         self.partner_id = partner_id
         self.title = title

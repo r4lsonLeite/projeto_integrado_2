@@ -1,5 +1,5 @@
 class Partner:
-    def __init__(self, partner_id, name, partner_type, contact):
+    def __init__(self, partner_id: int, name: str, partner_type: str, contact: str):
         self.partner_id = partner_id
         self.name = name
         self.partner_type = partner_type
