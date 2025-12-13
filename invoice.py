@@ -1,5 +1,6 @@
+import datetime
 class Invoice:
-    def __init__(self, invoice_id, order_id, amount, due_date, client_id, status, issue_date):
+    def __init__(self, invoice_id: int, order_id: int, amount: float, due_date: datetime, client_id: int, status: str, issue_date: datetime):
         self.invoice_id = invoice_id
         self.order_id = order_id
         self.amount = amount
