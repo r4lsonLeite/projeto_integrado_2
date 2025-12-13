@@ -1,4 +1,6 @@
 import datetime
+
+from projeto_integrado_2.invoice import Invoice
 class Payment:
     def __init__(self, payment_id: int, invoice_id: int, amount:float, gateway_type: str, transaction_gateway: str, status: str, payment_date: datetime):
         self.payment_id = payment_id
@@ -8,7 +10,7 @@ class Payment:
         self.transaction_gateway = transaction_gateway
         self.status = status
         self.payment_date = payment_date
-    def process_and_confirm(self, confirmation_date, invoice_object):
+    def process_and_confirm(self, confirmation_date: datetime, invoice_object: Invoice) -> bool:
         if self.status == 'pending':
             print(f"Payment {self.payment_id}: Processing via {self.gateway_type}...")
             self.status = 'confirmed'
