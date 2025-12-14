@@ -2,9 +2,9 @@ import datetime
 
 
 class User:
-    def __init__(self, name: str, adress: str, phone: int, email: str, date_register: datetime , password: str, status: bool ):
+    def __init__(self, name: str, address: str, phone: int, email: str, date_register: datetime , password: str, status: bool ):
         self.name = name
-        self.adress = adress
+        self.adress = address
         self.phone = phone
         self.email = email
         self.date_register = date_register
