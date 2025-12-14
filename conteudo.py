@@ -1,6 +1,6 @@
 class Conteudo():
     
-    def __init__(self, titulo, descricao, categoria, url, carga_horaria, visibilidade):
+    def __init__(self, titulo: str, descricao: str, categoria: str, url: str, carga_horaria: int, visibilidade: bool):
         self.titulo = titulo 
         self.descrição = descricao 
         self.categoria = categoria
