@@ -15,7 +15,7 @@ class Diagnosis():
         # teste
 if __name__ == "__main__":
     print("--- 1. Criando o Usuário ---")
-    usuario = User("Ana Souza", "ana@email.com")
+    usuario = user("Ana Souza", "ana@email.com")
     print(f"Usuário criado: {usuario}")
 
     print("\n--- 2. Criando o Diagnóstico ---")
