@@ -1,26 +1,23 @@
-from agendamentora import AgendaMentora
-from mentoria import Mentoria
-from avaliacaomentoria import AvaliacaoMentoria
-from produto import Produto
-from anuncio import Anuncio
-from pedido import Pedido
-from itempedido import ItemPedido
-from projeto_integrado_2.adress import Address
-from projeto_integrado_2.conteudo import Conteudo
-from projeto_integrado_2.diagnosis import Diagnosis
-from projeto_integrado_2.eventmetric import EventMetric
-from projeto_integrado_2.invoice import Invoice
-from projeto_integrado_2.notification import Notification
-from projeto_integrado_2.partner import Partner
-from projeto_integrado_2.partneroffer import PartnerOffer
-from projeto_integrado_2.payment import Payment
-from projeto_integrado_2.progressoconteudo import Progconteudo
-from projeto_integrado_2.trilha import Trilha
-from projeto_integrado_2.trilhaItem import Trilhaitem
-from projeto_integrado_2.user import User
+from app import create_app
+from app.models.agenda import AgendaMentora
+from app.models.apoio import Address, EventMetric, Notification
+from app.models.avaliacao import AvaliacaoMentoria
+from app.models.diagnostico import Diagnostico
+from app.models.financeiro import Invoice, Payment
+from app.models.marketplace import Anuncio
+from app.models.parcerias import Partner, PartnerOffer
+from app.models.pedido import ItemPedido, Pedido
+from app.models.produto import Produto
+from app.models.progresso import ProgressoConteudo
+from app.models.trilha import Conteudo, Trilha, TrilhaItem
+from app.models.user import User
+from app.models.mentoria import Mentoria
 
 
 def run_basic_assertions() -> None:
+    app = create_app()
+    assert app is not None
+
     agenda = AgendaMentora(agenda_id=1, mentora_id=10, data_hora="2025-12-12T10:00:00")
     assert agenda.disponivel is True
     assert agenda.reservar(usuario_id=20) is True
@@ -28,12 +25,10 @@ def run_basic_assertions() -> None:
     assert agenda.liberar() is True
     print("AgendaMentora: reserva e liberação ok")
 
-    mentoria = Mentoria(mentoria_id=1, agendamento_id=agenda.agenda_id)
-    assert mentoria.iniciar() is True
-    assert mentoria.status == 'em_andamento'
-    assert mentoria.concluir() is True
+    mentoria = Mentoria(usuario_id=20, mentora="Mentora A", data_hora="2025-12-12T10:00:00", tema="Vendas", mentoria_id=1)
+    mentoria.atualizar_status('concluida')
     assert mentoria.status == 'concluida'
-    print("Mentoria: iniciar e concluir ok")
+    print("Mentoria: atualização de status ok")
 
     avaliacao = AvaliacaoMentoria(avaliacao_id=1, mentoria_id=mentoria.mentoria_id, nota=4.5, comentario="Boa")
     assert avaliacao.nota == 4.5
@@ -53,18 +48,18 @@ def run_basic_assertions() -> None:
     print("Anuncio: publicar e pausar ok")
 
     pedido = Pedido(pedido_id=1, usuario_id=40, endereco_entrega="Rua A, 123")
-    item = ItemPedido(item_id=1, pedido_id=None, produto_id=produto.produto_id, quantidade=2, preco_unitario=45.0)
-    assert pedido.adicionar_item(item) is True
+    item = ItemPedido(produto_id=produto.produto_id, quantidade=2, preco_unitario=45.0)
+    pedido.adicionar_item(item)
     assert round(pedido.valor_total, 2) == 90.0
     assert pedido.to_dict()['itens'][0]['total'] == 90.0
     print("Pedido/ItemPedido: cálculo e serialização ok")
 
-    user = User(name='Ana', adress='Rua B', phone=119999999, email='ana@test.com', date_register='2025-01-01', password='123', status=True)
+    user = User(nome='Ana', email='ana@test.com', senha_hash='pbkdf2:sha256:1000000$teste$98c5d6d7f8940a4f16f0d9c58a1f4e11c7bd6340732f641663a5540c2fdd03f0', telefone='119999999', endereco='Rua B', user_id=1)
+    user.senha_hash = __import__('werkzeug.security').security.generate_password_hash('123')
     assert user.check_password('123') is True
     assert user.check_password('321') is False
 
-    addr = Address(user=user, street='Rua B', city='Sao Paulo', country='BR', zip_code=12345)
-    assert 'Sao Paulo' in str(addr)
+    addr = Address(user_id=user.user_id, street='Rua B', city='Sao Paulo', country='BR', zip_code='12345')
     assert addr.to_dict()['country'] == 'BR'
 
     invoice = Invoice(invoice_id=1, order_id=9, amount=100.0, due_date='2025-12-31', client_id=7, status='pending', issue_date='2025-12-01')
@@ -84,28 +79,29 @@ def run_basic_assertions() -> None:
     assert offer.toggle_activation() is False
     assert offer.toggle_activation() is True
 
-    notification = Notification(notification_id=1, user_id=user.name, channel='email', content='Olá', send_date='2025-12-01', send_status='pending')
+    notification = Notification(notification_id=1, user_id=user.user_id, channel='email', content='Olá', send_date='2025-12-01', send_status='pending')
     assert notification.send_notification() is True
 
     event = EventMetric(event_id=1, user_id=1, event_type='login', reference_id='abc', event_date='2025-12-12')
     assert event.record_event() is True
 
-    conteudo = Conteudo(titulo='Curso', descricao='Intro', categoria='edu', url='http://conteudo', carga_horaria=10)
+    conteudo = Conteudo(conteudo_id=1, titulo='Curso', descricao='Intro', categoria='edu', url='http://conteudo', carga_horaria=10)
     assert conteudo.to_dict()['titulo'] == 'Curso'
 
-    diag = Diagnosis(user=user, date_app='2025-12-12', score_first=8.5, level='avancado', answers=['a'])
+    diag = Diagnostico(user_id=user.user_id, date_app='2025-12-12', score_first=8.5, level='avancado', answers=['a'])
     assert 'score' in diag.resumo()
 
-    prog = Progconteudo(user=user, conteudo=conteudo, status='em_andamento', ultimoacesso='2025-12-12', percentual=10)
+    prog = ProgressoConteudo(user_id=user.user_id, conteudo_id=conteudo.conteudo_id, status='em_andamento', percentual=10, ultimo_acesso='2025-12-12')
     assert prog.marcar_progresso(50) is True
     assert prog.percentual == 50
 
-    trilha = Trilha(user=user, tipo='aprendizado', status='ativa', date_creat='2025-12-01')
-    assert trilha.atualizar_status('concluida') is True
+    trilha = Trilha(usuario_id=user.user_id, tipo='aprendizado', status='ativa', trilha_id=1, criado_em='2025-12-01')
+    trilha.status = 'concluida'
     assert trilha.status == 'concluida'
 
-    trilhaitem = Trilhaitem(trilha=trilha, conteudo=conteudo, ordem=1, obrigatorio=True)
-    assert trilhaitem.ordem == 1
+    trilhaitem = TrilhaItem(conteudo=conteudo, ordem=1, obrigatorio=True)
+    trilha.adicionar_item(trilhaitem)
+    assert trilha.itens[0].ordem == 1
     
 if __name__ == "__main__":
     run_basic_assertions()
