@@ -203,7 +203,16 @@ Exemplo: Este MVP de Empreenda Mais Elas foi estruturado com arquitetura sólida
 
 Para informações detalhadas sobre a arquitetura, padrões, diagramas e decisões técnicas, consulte:
 
-**[ARQUITETURA.md](../ARQUITETURA.md)** - Documentação arquitetural completa
+**[ARQUITETURA.md](./ARQUITETURA.md)** - Documentação arquitetural completa
+
+## Arquivos de Entrega (2 arquivos)
+
+Conforme os critérios da atividade, os 2 arquivos finais de entrega são:
+
+1. **Relatório**
+	- [RELATORIO_ENTREGA.md](./RELATORIO_ENTREGA.md)
+2. **Documentação Arquitetural**
+	- [ARQUITETURA.md](./ARQUITETURA.md)
 
 ---
 
@@ -225,12 +234,3 @@ Para informações detalhadas sobre a arquitetura, padrões, diagramas e decisõ
 - **Professor:** Luís Fabrício de Freitas Souza
 - **Instituição:** UFCA - Polo Lavras da Mangabeira
 - **Repositório:** [Link do GitHub]
-from app.models.pedido import Pedido, ItemPedido
-
-pedido = Pedido(pedido_id=1, usuario_id=10, endereco_entrega='Rua A, 123')
-item = ItemPedido(produto_id=7, quantidade=2, preco_unitario=50)
-pedido.adicionar_item(item)
-print("Valor Total Calculado pelo MVP:", pedido.valor_total)
-print("Dicionário Serializado para API (to_dict):")
-print(pedido.to_dict())
-PY
