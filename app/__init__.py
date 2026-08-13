@@ -12,12 +12,15 @@ def create_app(config_class: type[Config] = Config) -> Flask:
 
     init_extensions(app)
     if app.config.get("AUTO_CREATE_DB", True):
-        with app.app_context():
-            from .container import container
-            from .extensions import db
+        try:
+            with app.app_context():
+                from .container import container
+                from .extensions import db
 
-            db.create_all()
-            container.initialize_data()
+                db.create_all()
+                container.initialize_data()
+        except Exception:
+            app.logger.exception("Falha ao inicializar banco de dados no startup")
 
     app.register_blueprint(api_blueprint)
 
