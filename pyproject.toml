@@ -1,0 +1,4 @@
+[tool.vercel]
+builds = [
+  { src = "run.py", use = "@vercel/python" }
+]
