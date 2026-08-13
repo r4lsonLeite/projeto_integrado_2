@@ -1,4 +1,2 @@
 [tool.vercel]
-builds = [
-  { src = "run.py", use = "@vercel/python" }
-]
+entrypoint = "run:app"
